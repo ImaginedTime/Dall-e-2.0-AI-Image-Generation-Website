@@ -4,6 +4,10 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { Home, CreatePost } from './Pages';
 import { logo } from './assets';
 
+import axios from 'axios';
+
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+
 export default function App() {
   return (
     <BrowserRouter>

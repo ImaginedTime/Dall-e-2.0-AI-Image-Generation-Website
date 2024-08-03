@@ -2,10 +2,9 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 
-import connectDB from './mongodb/connect.js';
-
 import postRoutes from './routes/postRoutes.js';
 import dalleRoutes from './routes/dalleRoutes.js';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
@@ -24,15 +23,10 @@ app.get('/', async (req, res) => {
 });
 
 
-const startServer = async () => {
-    try {
-        connectDB(process.env.MONGODB_URL);
-        app.listen(process.env.PORT, () => {
-            console.log(`Server is running on http://localhost:${process.env.PORT}/`);
-        });
-    } catch (error) {
-        console.log('Error connecting to MongoDB', error);
-    }
-};
-
-startServer();
+mongoose.connect(process.env.MONGODB_URL).then(() => {
+    app.listen(process.env.PORT, () => {
+        console.log(`Server is running on port ${process.env.PORT}`);
+    });
+}).catch((err) => {
+    console.log(err);
+});
